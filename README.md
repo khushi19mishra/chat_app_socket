@@ -1,40 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Details
 
-## Getting Started
+Name: Khushi Mishra\
+College Name: IIT Delhi\
+Department: Texile and Fibre Engineering (2022TT12159)
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Messaging App
+
+This is a simple real-time messaging application built with Flask (backend) and Next.js (frontend). It uses WebSockets for real-time communication and SQLite for data storage.
+
+## Features
+
+- Real-time messaging
+- Message history persistence
+- User authentication (partially implemented)
+
+## Architecture
+
+The application consists of two main components:
+
+1. Backend (Flask)
+   - Handles WebSocket connections
+   - Manages database operations
+   - Broadcasts messages to connected clients
+
+2. Frontend (Next.js)
+   - Provides the user interface
+   - Manages WebSocket connection to the backend
+   - Displays messages in real-time
+
+
+
+The database consists of two tables:
+- `User`: Stores user information
+- `Message`: Stores message history
+
+## Application Flow
+
+```mermaid
+graph TD
+    A[User opens app] --> B[Connect to WebSocket]
+    B --> C[Receive previous messages]
+    C --> D[Display chat interface]
+    D --> E{User action}
+    E --> |Send message| F[Emit 'message' event]
+    F --> G[Server receives message]
+    G --> H[Save to database]
+    H --> I[Broadcast to all clients]
+    I --> J[Update chat display]
+    E --> |Receive message| K[Listen for 'message' event]
+    K --> J
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup and Running
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+1. Backend Setup:
+Install all the dependencies.
+   ```
+   python backend.py
+   ```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+2. Frontend Setup:
+   ```
+   npm install
+   npm run dev
+   ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+3. Open `http://localhost:3000` in your web browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Current Limitations and Future Improvements
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- The chat is currently public; private messaging could be added.
+- Error handling and input validation could be improved.
+- The UI could be enhanced for a better user experience.
